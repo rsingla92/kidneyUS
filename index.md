@@ -1,54 +1,34 @@
-# Open Kidney Data
+# Open Kidney Dataset
 ## Fine-grained Annotated Ultrasound for Medical Image Analysis
 
 ### Introduction
 
-Ultrasound imaging is a portable, real-time, non-ionizing, and non-invasive imaging modality. It is the first line for numerous organs, including the kidney. With recent advances in technology, the world of artificial intelligence (AI)-enhanced ultrasound is imminently upon us. However, there is a lack of open ultrasound data for researchers to use. We present the Open Kidney Data resource. It includes 514 fine-grained annotations of the kidney and its compartments, the corresponding ultrasound images, as well as 100 unlabelled images of other organs within the abdomen. 
+Ultrasound imaging is a portable, real-time, non-ionizing, and non-invasive imaging modality. It is the first line for numerous organs, including the kidney. With recent advances in technology, the world of artificial intelligence (AI)-enhanced ultrasound is imminently upon us. However, compared to other modalities like CT or MRI, there is a lack of open ultrasound data available for researchers to use.
+
+We present the Open Kidney Dataset. It includes over 500 abdominal ultrasound images and two sets of fine-grained polygon annotations from four classes that are available for non-commericial use.
+
+![Image](src)
 
 ### Motivation
+Artificial intelligence for medical imaging has seen unprecedented growth in the last ten years. As a result of the creation of imaging data being made available to researchers, cornerstone algorithms like U-net have been created. However, in the field of ultrasound, there is a lack of data available. This is in part due to difficulty in acessing medical imaging data as well as anonymization and privacy considerations. However, even in competititions within biomedical imaging such as the The MICCAI Segmentation Decathalon, ultrasound is underrpresented. The lack of data accentuates the growing reproducibility crisis within the ultrasound machine learning field. To the best of our knowledge there is no widely available kidney ultrasound dataset that exists.
+
+To further expand and improve academic efforts for machine learning in ultrasound, we present the Open Kidney Dataset.
 
 ### Data Description
 
-The Open Kidney Data is collected retrospectively over a five year period. It includes 
-
+<placeholder>
+![Image](src)
+  
 ### Code
-
+Preprocessing code for the ultrasound images is included...[Link](https://www.google.com/)
+An nnU-net model, data splits and modifications are included ...[Link](https://www.google.com/)
+  
 ### Access
-
+<placeholder for Research Use Agreement?>
+<placeholder for collecting information>
+  
 ### Citation
-
-### Contact
-For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
-
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/rsingla92/kidneyUS/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
+<placeholder for paper/arXiv submission>
+  
 ### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
