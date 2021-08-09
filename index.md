@@ -15,17 +15,16 @@ Artificial intelligence for medical imaging has seen unprecedented growth in the
 To further expand and improve academic efforts for machine learning in ultrasound, we present the Open Kidney Dataset.
 
 ### Data Description
-
 <placeholder>
-![Image](src)
   
 ### Code
-Preprocessing code for the ultrasound images is included...[Link](https://www.google.com/)
-An nnU-net model, data splits and modifications are included ...[Link](https://www.google.com/)
+1. Preprocessing code for the ultrasound images is included...[Link](https://www.google.com/)
+
+2. An nnU-net model, data splits and modifications are included ...[Link](https://www.google.com/)
   
 ### Access
-<placeholder for Research Use Agreement?>
-<placeholder for collecting information>
+1. <placeholder for Research Use Agreement?>
+2. <placeholder for collecting information>
   
 ### Citation
 <placeholder for paper/arXiv submission>
