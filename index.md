@@ -1,8 +1,25 @@
-## Welcome to GitHub Pages
+# Open Kidney Data
+## Fine-grained Annotated Ultrasound for Medical Image Analysis
 
-You can use the [editor on GitHub](https://github.com/rsingla92/kidneyUS/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Introduction
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Ultrasound imaging is a portable, real-time, non-ionizing, and non-invasive imaging modality. It is the first line for numerous organs, including the kidney. With recent advances in technology, the world of artificial intelligence (AI)-enhanced ultrasound is imminently upon us. However, there is a lack of open ultrasound data for researchers to use. We present the Open Kidney Data resource. It includes 514 fine-grained annotations of the kidney and its compartments, the corresponding ultrasound images, as well as 100 unlabelled images of other organs within the abdomen. 
+
+### Motivation
+
+### Data Description
+
+The Open Kidney Data is collected retrospectively over a five year period. It includes 
+
+### Code
+
+### Access
+
+### Citation
+
+### Contact
+For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
+
 
 ### Markdown
 
