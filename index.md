@@ -21,15 +21,13 @@ Each annotated image additionally comes with labels for the view type and kidney
 The data and code that are made available are under the CC BY-NC-SA license. Data may not be used for commercial purposes. Due to accessibility and privacy terms, registration is required for manual verification prior to the release of data.
 
 ### Access
-Please complete the registration form at this link: https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk
-1. <placeholder for Research Use Agreement?>
-2. <placeholder for collecting information via MailChimp or a Qualtrics embedded form> 
+Please complete the registration form at this link: [https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk]([url](https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk))
+
   
 ### Code and Trained Models
-Relevant code for masking, cropping data, reading and processing summary statistics of labels, pre-trained models and additional helper code is available at: https://github.com/rsingla92/kidneyUS
+Relevant code for masking, cropping data, reading and processing summary statistics of labels, pre-trained models and additional helper code is available at: [https://github.com/rsingla92/kidneyUS]([url](https://github.com/rsingla92/kidneyUS))
   
 ### Citation
-<placeholder for paper/arXiv submission>
    
 ### Support or Contact
 For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
