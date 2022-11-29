@@ -41,6 +41,7 @@
     <li><a href="#license">License</a></li>
     <li><a href="#citation">Citation</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#errata">Errata</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -131,6 +132,15 @@ Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open ki
 Rohit Singla  - rsingla@ece.ubc.ca
 
 Project Link: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- ERRATA -->
+## Errata
+Errata to the code, data, or otherwise will be listed here in a date stamped manner.
+
+None to date.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
