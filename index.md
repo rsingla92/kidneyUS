@@ -1,6 +1,8 @@
 # Open Kidney Dataset
 ## Fine-grained Annotated Ultrasound for Medical Image Analysis
 
+### Current Release: 14 June 2022
+
 ### Introduction
 Ultrasound imaging is a portable, real-time, non-ionizing, and non-invasive imaging modality. It is the first line for numerous organs, including the kidney. With recent advances in technology, the world of artificial intelligence (AI)-enhanced ultrasound is imminently upon us. However, compared to other modalities like CT or MRI, there is a lack of open ultrasound data available for researchers to use.
 
@@ -28,6 +30,7 @@ Please complete the registration form at this link: [https://ubc.ca1.qualtrics.c
 Relevant code for masking, cropping data, reading and processing summary statistics of labels, pre-trained models and additional helper code is available at: [https://github.com/rsingla92/kidneyUS]([url](https://github.com/rsingla92/kidneyUS))
   
 ### Citation
+Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open kidney ultrasound data set. arXiv preprint arXiv:2206.06657. 2022 Jun 14.
    
 ### Support or Contact
 For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
