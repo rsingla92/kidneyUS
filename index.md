@@ -19,6 +19,22 @@ Insitutional approval was received (H21-02375). The ultrasound images were origi
 
 Each annotated image additionally comes with labels for the view type and kidney type (native or transplant).
 
+### Repository Structure
+
+The repository itself is laid out as per follows:
+
+* The top level directory includes the `requirements.txt`, README, and a CSV file on transducer properties. This CSV contains, where possible, information on a per-image basis on the make and model of the ultrasound machine, the transducer used, the physical resolution and transducer frequency.
+* `/src/` includes the scripts used to evaluation segmentation results. 
+  * `/src/tools/` contains utility scripts to perform image manipulation, calculate distributions, etc.
+  * `/src/echotools/` contains scripts used to process the DICOM images originally obtained. Note that only .PNG files are shared. These files are provided as reference.
+  * `/src/annotation_analysis/` conatins utility scripts for evaluating the manual annotations provided by sonographers and calculate variance statistics on such annotations.
+* `/labels/` contains the CSV files generated from the VGG Image Annotator for all images. Each CSV record includes the filename, file size, atributes on quality, the view type, and any brief comments provided by the sonographer. It also includes the coordinates for each polygon corresponding to each different annotation region. 
+
+### Data Structure
+
+The data structure is provided as folder of PNG images. Each file corresponds to a randomly sampled image from a unique patient. No more than one image is from the same patient. Access to data requires registration.
+
+
 ### License
 The data and code that are made available are under the CC BY-NC-SA license. Data may not be used for commercial purposes. Due to accessibility and privacy terms, registration is required for manual verification prior to the release of data.
 
@@ -34,3 +50,9 @@ Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open ki
    
 ### Support or Contact
 For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
+
+### Errata
+
+Errata to the code, data, or otherwise will be listed here in a date stamped manner.
+
+None to date.
