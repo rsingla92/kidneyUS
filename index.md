@@ -35,7 +35,7 @@ The repository itself is laid out as per follows:
 The data structure is provided as folder of PNG images. Each file corresponds to a randomly sampled image from a unique patient. No more than one image is from the same patient. Access to data requires registration.
 
 
-### License
+### License and Usage
 The data and code that are made available are under the CC BY-NC-SA license. Data may not be used for commercial purposes. Due to accessibility and privacy terms, registration is required for manual verification prior to the release of data.
 
 ### Access
