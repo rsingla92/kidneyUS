@@ -69,7 +69,9 @@ Each annotated image additionally comes with labels for the view type and kidney
 
 The repository itself is laid out as per follows:
 
-* The top level directory includes the `requirements.txt`, README, and a CSV file on transducer properties. This CSV contains, where possible, information on a per-image basis on the make and model of the ultrasound machine, the transducer used, the physical resolution and transducer frequency.
+* The top level directory includes the `requirements.txt`, README, a CSV file on transducer properties, and a WORD doc on annotation guidelines. 
+  * This CSV contains, where possible, information on a per-image basis on the make and model of the ultrasound machine, the transducer used, the physical resolution and transducer frequency.
+  * The WORD doc contains the guidelines and notes used as reference for the manual annotations provided by expert sonographers.
 * `/src/` includes the scripts used to evaluation segmentation results. 
   * `/src/tools/` contains utility scripts to perform image manipulation, calculate distributions, etc.
   * `/src/echotools/` contains scripts used to process the DICOM images originally obtained. Note that only .PNG files are shared. These files are provided as reference.
