@@ -33,14 +33,14 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#repository-structure">Repository Structure</a></li>
+    <li><a href="#data-structure">Data Structure</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#access">Access</a></li>
     <li><a href="#license">License</a></li>
+    <li><a href="#citation">Citation</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#contact">Citation</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -60,6 +60,27 @@ This dataset may provide standardization to ultrasound segmentation benchmarking
 Insitutional approval was received (H21-02375). The ultrasound images were originally acquired between January 2015 and September 2019. These B-mode ultrasound images are collected from real patients who had a clinical indication to receive an ultrasound investigation of their kidneys. Consequently, a significant portion are obtained in real-world situations such as at the bedside or intensive care units, rather than finely controlled laboratory conditions. The participant population includes adults with chronic kidney disease, prospective kidney donors, and adults with a transplanted kidney. No filtering for specific patient or imaging characteristics were made. No filtering for specific vendors were made, and hence a variety of ultrasound manufacturers are represented including Philips, General Electric (GE), Acuson, Siemens, Toshiba and SonoSite.
 
 Each annotated image additionally comes with labels for the view type and kidney type (native or transplant).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Repository Structure -->
+## Repository Structure
+
+The repository itself is laid out as per follows:
+
+* The top level directory includes the `requirements.txt` and README
+* `/src/` includes the scripts used to evaluation segmentation results. 
+  * `/src/tools/` contains utility scripts to perform image manipulation, calculate distributions, etc.
+  * `/src/echotools/` contains scripts used to process the DICOM images originally obtained. Note that only .PNG files are shared. These files are provided as reference.
+  * `/src/annotation_analysis/` conatins utility scripts for evaluating the manual annotations provided by sonographers and calculate variance statistics on such annotations.
+* `/labels/` contains the CSV files generated from the VGG Image Annotator for all images. Each CSV record includes the filename, file size, atributes on quality, the view type, and any brief comments provided by the sonographer. It also includes the coordinates for each polygon corresponding to each different annotation region. 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Data Structure -->
+## Data Structure
+
+The data structure is provided as folder of PNG images. Each file corresponds to a randomly sampled image from a unique patient. No more than one image is from the same patient. Access to data requires registration.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
