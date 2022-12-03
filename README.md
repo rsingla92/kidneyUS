@@ -39,9 +39,10 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#access">Access</a></li>
     <li><a href="#license">License</a></li>
+    <li><a href="#questions">Common Questions</a></li>
+    <li><a href="#errata">Errata</a></li>
     <li><a href="#citation">Citation</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#errata">Errata</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -119,21 +120,12 @@ The data and code is made available are under the CC BY-NC-SA license. Data may 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- CITATION -->
-## Citation
+<!-- Questions -->
+## Common Questions
 
-Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open kidney ultrasound data set. arXiv preprint arXiv:2206.06657. 2022 Jun 14.
+* Q: Will the entire ultrasound video sequences (cines) be made available?
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Rohit Singla  - rsingla@ece.ubc.ca
-
-Project Link: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
+A: Currently, we do not make the video sequences available. Future major versions may include this. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,6 +138,23 @@ None to date.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- CITATION -->
+## Citation
+
+Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open kidney ultrasound data set. arXiv preprint arXiv:2206.06657. 2022 Jun 14.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+Rohit Singla  - rsingla@ece.ubc.ca
+
+Project Link: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- ACKNOWLEDGMENTS -->
