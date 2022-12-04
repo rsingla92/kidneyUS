@@ -37,7 +37,8 @@
     <li><a href="#repository-structure">Repository Structure</a></li>
     <li><a href="#data-structure">Data Structure</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#access">Access</a></li>
+    <li><a href="#access">Data Access</a></li>
+    <li><a href="#weights">Pre-trained Weights</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#questions">Common Questions</a></li>
     <li><a href="#errata">Errata</a></li>
@@ -105,10 +106,17 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Access -->
-## Access
+<!-- Data Access -->
+## Data Access
 
-Please complete the registration form at this link: https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk
+Please complete the registration form at this link to be provided with the imaging data: https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Pre-trained Weights -->
+## Pre-trained Weights
+
+Pre-trained weights for the models described in this work are available online at <a href="https://1drv.ms/u/s!AnD7bYBfR2L9jjxyAQizZLIqxmyf?e=cy02eI">this link</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
