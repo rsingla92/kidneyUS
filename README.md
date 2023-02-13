@@ -158,7 +158,7 @@ Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open ki
 <!-- CONTACT -->
 ## Contact
 
-Rohit Singla  - rsingla@ece.ubc.ca
+Rohit Singla  - rsingla92 [at] gmail [dot] com
 
 Project Link: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
 
