@@ -13,7 +13,6 @@ Artificial intelligence for medical imaging has seen unprecedented growth in the
 
 This dataset may provide standardization to ultrasound segmentation benchmarking, as well as in the long-term reduce ultrasound interpretation efforts, furthering simplifying ultrasound use.
 
-
 ### Data Description
 Insitutional approval was received (H21-02375). The ultrasound images were originally acquired between January 2015 and September 2019. These B-mode ultrasound images are collected from real patients who had a clinical indication to receive an ultrasound investigation of their kidneys. Consequently, a significant portion are obtained in real-world situations such as at the bedside or intensive care units, rather than finely controlled laboratory conditions. The participant population includes adults with chronic kidney disease, prospective kidney donors, and adults with a transplanted kidney. No filtering for specific patient or imaging characteristics were made. No filtering for specific vendors were made, and hence a variety of ultrasound manufacturers are represented including Philips, General Electric (GE), Acuson, Siemens, Toshiba and SonoSite.
 
@@ -39,17 +38,18 @@ The data structure is provided as folder of PNG images. Each file corresponds to
 The data and code that are made available are under the CC BY-NC-SA license. Data may not be used for commercial purposes. Due to accessibility and privacy terms, registration is required for manual verification prior to the release of data.
 
 ### Access
-Please complete the registration form at this link: [https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk]([url](https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk))
+Please complete the registration form at this link: [https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk](https://ubc.ca1.qualtrics.com/jfe/form/SV_1TfBnLm1wwZ9srk)
 
+Upon registering, your submission will be reviewed manually. After review, an email will be sent to you with relevant links.
   
 ### Code and Trained Models
-Relevant code for masking, cropping data, reading and processing summary statistics of labels, pre-trained models and additional helper code is available at: [https://github.com/rsingla92/kidneyUS]([url](https://github.com/rsingla92/kidneyUS))
+Relevant code for masking, cropping data, reading and processing summary statistics of labels, pre-trained models and additional helper code is available at: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
   
 ### Citation
 Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open kidney ultrasound data set. arXiv preprint arXiv:2206.06657. 2022 Jun 14.
    
 ### Support or Contact
-For additional information, or to report errors in the data, please contact us at rsingla [at] ece [dot] ubc [dot] ca 
+For additional information, or to report errors in the data, please contact us at rsingla92 [at] gmail [dot] com
 
 ### Errata
 
