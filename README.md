@@ -19,7 +19,7 @@
     <img src="kidneyUSlogo.png" alt="Logo" width="320" height="240">
   </a>
 
-<h3 align="center">The Open Kidney Ultrasound Dataset</h3>
+<h3 align="center">The Open Kidney Ultrasound Data Set</h3>
   <p align="center">
     Fine-grained Annotated Ultrasound for Medical Image Analysis
     <br />
