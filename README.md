@@ -10,7 +10,7 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Version][version-shield]]
+![Version][version-shield]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -37,10 +37,10 @@
     <li><a href="#repository-structure">Repository Structure</a></li>
     <li><a href="#data-structure">Data Structure</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#access">Data Access</a></li>
-    <li><a href="#weights">Pre-trained Weights</a></li>
+    <li><a href="#data-access">Data Access</a></li>
+    <li><a href="#pre-trained-weights">Pre-trained Weights</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#questions">Common Questions</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#errata">Errata</a></li>
     <li><a href="#citation">Citation</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -128,13 +128,16 @@ The data and code is made available are under the CC BY-NC-SA license. Data may 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Questions -->
-## Common Questions
+<!-- FAQ -->
+## FAQ
 
-* Q: Will the entire ultrasound video sequences (cines) be made available?
+Q1: Will the entire ultrasound video sequences (cines) be made available?
 
 A: Currently, we do not make the video sequences available. Future major versions may include this. 
 
+Q2: Why is there a delay between registering for the data and receiving an email with it?
+
+A: Currently, I manually review each registration to ensure that it is (a) not spam and (b) not commericial. It can take a few hours to days because of my availability. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
