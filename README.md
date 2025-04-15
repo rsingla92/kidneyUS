@@ -156,7 +156,7 @@ None to date.
 <!-- CITATION -->
 ## Citation
 
-Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open kidney ultrasound data set. arXiv preprint arXiv:2206.06657. 2022 Jun 14.
+Singla, R., Ringstrom, C., Hu, G., Lessoway, V., Reid, J., Nguan, C., & Rohling, R. (2023, October). The open kidney ultrasound data set. In International Workshop on Advances in Simplifying Medical Ultrasound (pp. 155-164). Cham: Springer Nature Switzerland.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -164,7 +164,7 @@ Singla R, Ringstrom C, Hu G, Lessoway V, Reid J, Nguan C, Rohling R. The open ki
 <!-- CONTACT -->
 ## Contact
 
-Rohit Singla  - rsingla92 [at] gmail [dot] com
+Rohit Singla  - rsingla [at] ece [dot] ubc [dot] ca
 
 Project Link: [https://github.com/rsingla92/kidneyUS](https://github.com/rsingla92/kidneyUS)
 
