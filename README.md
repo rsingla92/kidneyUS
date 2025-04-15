@@ -137,9 +137,12 @@ A: Currently, we do not make the video sequences available. Future major version
 
 Q2: Why is there a delay between registering for the data and receiving an email with it?
 
-A: Currently, I manually review each registration to ensure that it is (a) not spam and (b) not commericial. It can take a few hours to days because of my availability. 
+A: Currently, I manually review each registration to ensure that it is (a) not spam and (b) not commercial. It can take a few hours to days because of my availability.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+Q3: Will you update the data set in the future?
+
+A: No plans yet. 
 
 <!-- ERRATA -->
 ## Errata
