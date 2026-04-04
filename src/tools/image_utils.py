@@ -7,10 +7,7 @@ This includes:
 """
 import os
 import cv2
-import json
-import argparse
-import numpy as np 
-import csv
+import numpy as np
 
 colour_map = {0: np.array([255, 255, 255]),  # Background
               1: np.array([255, 0, 0]),  # Capsule

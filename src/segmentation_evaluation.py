@@ -10,16 +10,11 @@ It will perform the following:
 - Create compound images to compare the annotation to the new segmnetation
 
 """
-import csv
-import json
 import argparse
 import os
-import numpy as np
-import cv2
 
-from tools.variability_shared import *
-from tools.size_tools import *
-from tools.image_utils import *
+from tools.variability_shared import get_conversions
+from tools.image_utils import create_all_overlays, create_compound_images
 from tools.metric_utils import generate_hd_csv, generate_score_csv, get_dsc_coef, get_precision, get_recall
 from tools.basic_utils import maybe_mkdir
 

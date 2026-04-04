@@ -6,13 +6,8 @@ import cv2
 import json
 import argparse
 import numpy as np
-import sys
 import csv
 import sys
-
-sys.path.append('../')
-
-from tools.basic_utils import maybe_mkdir
 
 sys.path.append('../')
 

@@ -2,7 +2,6 @@
 
 """
 import csv
-import json
 import argparse
 import os
 import numpy as np
@@ -11,7 +10,7 @@ import sys
 
 sys.path.append('../')
 
-from tools.variability_shared import *
+from tools.variability_shared import generate_masks, compute_hd, get_repeat_sets, get_conversions
 
 NUM_CLASSES = 4
 NUM_FILES = 3

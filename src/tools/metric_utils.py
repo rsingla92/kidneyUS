@@ -6,15 +6,11 @@ This includes:
 
 """
 import csv
-import json
 import os
 import cv2
-import json
-import argparse
 import numpy as np
-import csv
 
-from tools.variability_shared import *
+from tools.variability_shared import generate_masks, compute_dsc, compute_precision, compute_recall, compute_hd
 
 
 def get_dsc_coef(capsule1_path, region1_path, capsule2_path, region2_path):

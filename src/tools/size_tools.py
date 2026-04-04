@@ -7,16 +7,12 @@ This includes:
 
 """
 import csv
-import json
-import argparse
 import os
 import numpy as np
 import cv2
 import math
-import radiomics
-from scipy import spatial
 
-from tools.variability_shared import *
+from tools.variability_shared import generate_masks
 
 
 def get_mask_area(mask, pixel_dim):

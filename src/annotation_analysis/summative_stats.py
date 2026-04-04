@@ -12,7 +12,6 @@ It will perform the following:
 
 """
 import csv
-import json
 import argparse
 import os
 import numpy as np
@@ -23,7 +22,7 @@ import sys
 
 sys.path.append('../')
 
-from tools.variability_shared import *
+from tools.variability_shared import get_repeats
 
 NUM_CLASSES = 4
 CLASSES = ["Capsule", "Central Echogenic Complex", "Medulla", "Cortex"]
