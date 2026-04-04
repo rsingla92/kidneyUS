@@ -6,9 +6,8 @@ import numpy as np
 
 sys.path.append('../')
 
-from tools.metric_utils import get_dsc_coef
 from tools.basic_utils import write_rows_to_file, format_floats_for_csv
-from tools.variability_shared import *
+from tools.variability_shared import generate_masks, compute_dsc, get_repeats
 
 
 def get_percent_change(val1, val2):

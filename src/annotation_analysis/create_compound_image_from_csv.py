@@ -3,12 +3,13 @@ interrater variability.
 """
 import os
 import cv2
-import json
 import argparse
-import numpy as np 
-import matplotlib.pyplot as plt
+import numpy as np
+import sys
 
-from variability_shared import *
+sys.path.append('../')
+
+from tools.variability_shared import get_repeat_sets
 
 
 if __name__ == "__main__":

@@ -2,17 +2,15 @@
 
 """
 import csv
-import json
 import argparse
 import os
 import numpy as np
-import cv2
 import sys
 
 sys.path.append('../')
 
 from tools.metric_utils import get_dsc_coef
-from tools.variability_shared import *
+from tools.variability_shared import get_repeats
 
 NUM_CLASSES = 4
 
