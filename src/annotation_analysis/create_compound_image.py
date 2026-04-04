@@ -1,8 +1,10 @@
+"""Creates side-by-side composite images for visual comparison of segmentations."""
+
 import os
 import cv2
 import json
 import argparse
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
 
 def display_multiple_img(images, filename, rows = 1, cols=1):

@@ -1,3 +1,9 @@
+"""Post-processing for kidney segmentation masks.
+
+Provides functions to restrict region masks to the capsule area and to clean
+capsule masks by keeping only the largest contour.
+"""
+
 import os
 import argparse
 import cv2

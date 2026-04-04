@@ -1,3 +1,9 @@
+"""Mutual information computation between ultrasound images and Nakagami parameters.
+
+Loads NIfTI image files and corresponding Nakagami parameter files, computes
+mutual information statistics, and writes results to CSV.
+"""
+
 import os
 import argparse
 import numpy as np

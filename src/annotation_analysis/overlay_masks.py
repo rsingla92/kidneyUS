@@ -1,3 +1,5 @@
+"""Wrapper script to create color-coded mask overlays on original ultrasound images."""
+
 import os
 import argparse
 import sys

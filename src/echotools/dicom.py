@@ -1,3 +1,9 @@
+"""Core DICOM file handling for kidney ultrasound images.
+
+Provides the Dicom class for reading, cleaning, and processing ultrasound DICOM
+files. Includes functionality for PHI removal and image format conversion.
+"""
+
 import numpy as np
 import pydicom
 import cv2

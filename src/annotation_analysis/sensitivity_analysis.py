@@ -1,3 +1,5 @@
+"""Sensitivity analysis of segmentation metrics to morphological operations."""
+
 import cv2
 import os
 import argparse

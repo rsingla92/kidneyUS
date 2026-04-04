@@ -1,3 +1,5 @@
+"""Comparison of signal-to-noise ratio (SNR) between ground truth and predicted masks."""
+
 import os
 import sys
 import argparse

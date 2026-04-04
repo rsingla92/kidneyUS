@@ -1,3 +1,9 @@
+"""Nakagami distribution parameter estimation and SNR computation for ultrasound masks.
+
+Provides functions to fit Nakagami distributions to pixel intensity data,
+compute signal-to-noise ratios, and calculate KL divergence between distributions.
+"""
+
 import numpy as np
 import math
 from scipy.stats import nakagami, entropy

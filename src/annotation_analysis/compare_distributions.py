@@ -1,3 +1,5 @@
+"""Comparison of Nakagami shape and scale parameters between ground truth and predicted masks."""
+
 import os
 import sys
 import argparse

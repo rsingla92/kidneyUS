@@ -1,3 +1,5 @@
+"""Converts 2D NIfTI segmentation files to PNG images."""
+
 import numpy as np
 from skimage import io
 import SimpleITK as sitk
