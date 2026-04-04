@@ -1,7 +1,9 @@
+"""Converts PNG images to NIfTI format for use in segmentation pipelines."""
+
 from skimage import io
 import SimpleITK as sitk
 import numpy as np
-import os 
+import os
 import random
 import json
 import argparse

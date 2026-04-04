@@ -1,3 +1,8 @@
+"""DICOM processing pipeline: masks PHI, converts to PNG/NIfTI, generates metadata CSV.
+
+Note: provided as reference only; raw DICOMs are not shared with the dataset.
+"""
+
 from glob import glob
 from dicom import Dicom
 import cv2

@@ -1,3 +1,10 @@
+"""Shared utilities for inter-rater and intra-rater variability analysis.
+
+Provides helper functions for pixel-to-mm conversions, identifying repeated
+annotation file sets, generating binary masks, and computing Dice similarity
+coefficients and Hausdorff distances.
+"""
+
 import csv
 import numpy as np
 import SimpleITK as sitk
