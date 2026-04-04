@@ -56,10 +56,10 @@ if __name__ == "__main__":
             row.append(prediction_params[i][1])
             row.append(abs(mask_params[i][1]-prediction_params[i][1]))
             diff_totals[2*i+1] = diff_totals[2*i+1] + abs(mask_params[i][1]-prediction_params[i][1])
-            mask_shape_total += mask_shape_total + mask_params[i][0]
-            mask_scale_total += mask_scale_total + mask_params[i][1]
-            prediction_shape_total += prediction_shape_total + prediction_params[i][0]
-            prediction_scale_total += prediction_scale_total + prediction_params[i][1]
+            mask_shape_total += mask_params[i][0]
+            mask_scale_total += mask_params[i][1]
+            prediction_shape_total += prediction_params[i][0]
+            prediction_scale_total += prediction_params[i][1]
         row.append(mask_shape_total / 3)
         row.append(prediction_shape_total / 3)
         row.append(abs(mask_shape_total - prediction_shape_total) / 3)

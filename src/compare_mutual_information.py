@@ -51,7 +51,7 @@ if __name__ == "__main__":
         stats = stats_load['arr_0']
         
         img_load = nib.load(img_path)
-        img = img_load.get_data()
+        img = img_load.get_fdata()
         img = np.squeeze(img)
         shape_mi = find_mutual_information(img, normalize_minmax_data(stats[0,:,:]))
         scale_mi = find_mutual_information(img, normalize_minmax_data(stats[1,:,:]))

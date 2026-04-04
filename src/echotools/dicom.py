@@ -48,7 +48,7 @@ class Dicom:
         self.file_name = file_name
         self.is_mat = False
         if file_name.endswith('.dcm'):
-            self.dicom = pydicom.read_file(file_name)
+            self.dicom = pydicom.dcmread(file_name)
             if 'PixelData' in self.dicom:
                 self.video = self.dicom.pixel_array
                 self.contains_pixel_data = True
@@ -398,7 +398,7 @@ class Dicom:
             self._mask = self.find_mask(self.threshold)
             total = np.product(self._mask.shape)
             covering = self._mask.sum() / total
-            com = ndimage.measurements.center_of_mass(self._mask)
+            com = ndimage.center_of_mass(self._mask)
 
             if covering < .15:
                 self._mask = self.find_mask(self.threshold / 2)
@@ -457,7 +457,7 @@ class Dicom:
         else:
             g = to_grayscale(self.video / 255)
 
-        com = ndimage.measurements.center_of_mass(self.mask)
+        com = ndimage.center_of_mass(self.mask)
 
         if(com[0] > 3 * self.mask.shape[0]/4):
             raise ValueError('COM too low')

@@ -58,7 +58,7 @@ def kl_divergence(p, q):
 def compute_nakagami_kl_divergence(params1, params2):
     lim = max(params1[1], params2[1]) * 4
     x = np.arange(0.01, lim, 0.01)
-    p = nakagami.pdf(x, params1[0], loc=0, scale=params2[1])
+    p = nakagami.pdf(x, params1[0], loc=0, scale=params1[1])
     q = nakagami.pdf(x, params2[0], loc=0, scale=params2[1])
     
     if params1[0]==0 and params1[1]==0 and params2[0]==0 and params2[1]==0:
