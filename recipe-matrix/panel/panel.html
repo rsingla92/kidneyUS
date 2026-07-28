@@ -22,6 +22,7 @@
       <a href="#" id="link-options" title="API key & model">⚙</a>
     </div>
     <div class="bar-row" id="edit-bar" hidden>
+      <button id="btn-ai" title="Send this recipe to Gemini for a smarter grouping (undo reverts)">✨ AI restructure</button>
       <button id="btn-add-header">+ Prep header</button>
       <button id="btn-add-notes">+ Notes</button>
       <span class="sep"></span>
@@ -51,6 +52,7 @@
       <p>Paste the recipe text below (ingredients and instructions) and I'll chart it:</p>
       <textarea id="paste-text" rows="12" placeholder="1 cup sugar&#10;2 eggs&#10;…&#10;&#10;Cream the butter and sugar. Add eggs…"></textarea>
       <button id="btn-paste-go">Build chart</button>
+      <button id="btn-ai-page" hidden>✨ Ask AI to read this page</button>
     </div>
 
     <div id="chart-scroll">

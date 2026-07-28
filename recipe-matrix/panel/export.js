@@ -14,12 +14,48 @@ function ownStylesText() {
   let css = "";
   for (const sheet of document.styleSheets) {
     try {
-      for (const rule of sheet.cssRules) css += rule.cssText + "\n";
+      for (const rule of sheet.cssRules) {
+        // @font-face rules reference chrome-extension:// URLs, which the
+        // isolated SVG rasterization context refuses to load — they're
+        // re-added as data: URIs by embeddedFontCss() instead.
+        if (rule instanceof CSSFontFaceRule) continue;
+        css += rule.cssText + "\n";
+      }
     } catch {
       /* cross-origin sheet — none in this extension */
     }
   }
   return css;
+}
+
+// Bundled Source Serif 4 (SIL OFL 1.1), inlined for export.
+const FONT_FILES = [
+  { file: "SourceSerif4-Regular.ttf.woff2", weight: 400, style: "normal" },
+  { file: "SourceSerif4-It.ttf.woff2", weight: 400, style: "italic" },
+  { file: "SourceSerif4-Semibold.ttf.woff2", weight: 600, style: "normal" },
+  { file: "SourceSerif4-Bold.ttf.woff2", weight: 700, style: "normal" },
+];
+let fontCssCache = null;
+
+async function embeddedFontCss() {
+  if (fontCssCache !== null) return fontCssCache;
+  const faces = await Promise.all(
+    FONT_FILES.map(async ({ file, weight, style }) => {
+      try {
+        const res = await fetch(chrome.runtime.getURL(`fonts/${file}`));
+        const buf = new Uint8Array(await res.arrayBuffer());
+        let bin = "";
+        for (let i = 0; i < buf.length; i += 0x8000) {
+          bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+        }
+        return `@font-face{font-family:"Source Serif 4";font-weight:${weight};font-style:${style};src:url(data:font/woff2;base64,${btoa(bin)}) format("woff2");}`;
+      } catch {
+        return ""; // fall back to the CSS font stack
+      }
+    })
+  );
+  fontCssCache = faces.join("\n");
+  return fontCssCache;
 }
 
 export async function renderToCanvas(chartEl, { transparent = false } = {}) {
@@ -42,10 +78,12 @@ export async function renderToCanvas(chartEl, { transparent = false } = {}) {
   wrapper.appendChild(clone);
   const html = new XMLSerializer().serializeToString(wrapper);
 
+  await document.fonts.ready;
+  const css = (await embeddedFontCss()) + "\n" + ownStylesText();
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
     `<foreignObject width="100%" height="100%">` +
-    `<div xmlns="http://www.w3.org/1999/xhtml"><style>${ownStylesText()
+    `<div xmlns="http://www.w3.org/1999/xhtml"><style>${css
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")}</style>${html}</div>` +
     `</foreignObject></svg>`;
@@ -58,6 +96,7 @@ export async function renderToCanvas(chartEl, { transparent = false } = {}) {
     img.onload = resolve;
     img.onerror = () => reject(new Error("could not rasterize chart"));
   });
+  await img.decode().catch(() => {}); // ensure embedded fonts are rasterized
   const canvas = document.createElement("canvas");
   canvas.width = width * SCALE;
   canvas.height = height * SCALE;

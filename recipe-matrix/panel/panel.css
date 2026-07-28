@@ -73,6 +73,32 @@ label { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
   margin-bottom: 8px;
 }
 
+/* ---- bundled type: Source Serif 4 (Adobe, SIL OFL 1.1) ---------------- */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/SourceSerif4-Regular.ttf.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/SourceSerif4-It.ttf.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/SourceSerif4-Semibold.ttf.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/SourceSerif4-Bold.ttf.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* ---- the chart itself (exported) ------------------------------------- */
 .chart {
   /* theme variables; overridden per theme below */
@@ -84,8 +110,9 @@ label { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
   --rule: color-mix(in srgb, var(--accent) 42%, var(--ground));
   --rule-strong: color-mix(in srgb, var(--accent) 75%, var(--ground));
   --op-tint: color-mix(in srgb, var(--accent) 4%, transparent);
-  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --flow: color-mix(in srgb, var(--accent) 30%, var(--ground));
 
   display: inline-block;
   background: var(--ground);
@@ -145,10 +172,24 @@ table.matrix {
   white-space: nowrap;
   position: relative;
 }
+/* Faint leader rules showing flow through stretched cells: an ingredient
+   that skips columns to join a later step trails a dashed line rightward;
+   a wide op cell carries the line through both sides of its label. */
+.cell-line { display: flex; align-items: baseline; }
+.matrix td.op .cell-line { align-items: center; justify-content: center; }
+.flow {
+  flex: 1 1 12px;
+  min-width: 12px;
+  border-top: 1px dashed var(--flow);
+  align-self: center;
+}
+.matrix td.ingredient .flow { margin-left: 10px; }
+.matrix td.op .flow:first-child { margin-right: 9px; }
+.matrix td.op .flow:last-child { margin-left: 9px; }
 .matrix td.ingredient .ing-qty {
   font: 600 12px/1.4 var(--sans);
   margin-right: 7px;
-  font-variant-numeric: tabular-nums diagonal-fractions;
+  font-variant-numeric: tabular-nums;
 }
 .matrix td.ingredient .ing-note { color: var(--muted); font-style: italic; font-size: 11.5px; margin-left: 5px; }
 .matrix td.ingredient .ing-section {

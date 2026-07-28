@@ -144,17 +144,23 @@ async function runExtraction() {
     domain: extraction?.domain || "",
   };
 
-  const settings = await loadSettings();
-  const provider = getProvider(settings);
-
   if (extraction?.ok) {
-    await structureExtracted(extraction.recipe, provider);
-  } else if (extraction?.pageText && provider) {
-    await structureRawText(extraction.pageText, provider);
-  } else {
-    spinner(null);
-    $("no-recipe").hidden = false;
-    if (!provider && extraction?.pageText) {
+    // Deterministic by default — the LLM only runs when the user asks
+    // (the "AI restructure" button) because the mechanical chart looks wrong.
+    app.lastExtracted = extraction.recipe;
+    const recipe = buildRecipeFromExtraction(extraction.recipe, app.state.meta);
+    if (recipe) {
+      finishRender(recipe);
+      return;
+    }
+  }
+  spinner(null);
+  $("no-recipe").hidden = false;
+  if (extraction?.pageText) {
+    app.lastPageText = extraction.pageText;
+    const provider = getProvider(await loadSettings());
+    $("btn-ai-page").hidden = !provider;
+    if (!provider) {
       banner(
         `No structured recipe found. With a free Gemini key (<a href="#" id="banner-options">Options</a>) I could read the page text itself.`
       );
@@ -163,36 +169,38 @@ async function runExtraction() {
   }
 }
 
-async function structureExtracted(extracted, provider) {
-  if (provider) {
-    spinner(`Structuring with ${provider.name}…`);
-    try {
-      const raw = await provider.structureRecipe(extracted, app.state.meta.domain, {
-        onStatus: (t) => spinner(t),
-      });
-      const recipe = normalizeRecipe(raw);
-      if (recipe) {
-        finishRender(recipe);
-        return;
-      }
-      status("The model's structure was unusable — structured mechanically instead.", true);
-    } catch (e) {
-      status(`${e.message} Structured mechanically instead.`, e.kind !== "rate-limit");
-    }
-  }
-  const recipe = buildRecipeFromExtraction(extracted, app.state.meta);
-  if (!recipe) {
-    spinner(null);
-    $("no-recipe").hidden = false;
+/** The opt-in LLM pass: re-group the last extraction with Gemini. */
+async function aiRestructure() {
+  const provider = getProvider(await loadSettings());
+  if (!provider) {
+    status("AI restructure needs a free Gemini API key — opening Options.", true);
+    chrome.runtime.openOptionsPage();
     return;
   }
-  if (!provider) {
-    banner(
-      `No API key — structured by matching ingredients to instruction steps. Check the grouping (it's mechanical), or add a free Gemini key in <a href="#" id="banner-options">Options</a> for smarter structuring.`
-    );
-    bindBannerOptions();
+  if (!app.lastExtracted) {
+    status("Nothing to restructure — re-extract first.", true);
+    return;
   }
-  finishRender(recipe);
+  $("btn-ai").disabled = true;
+  spinner(`Restructuring with ${provider.name}…`);
+  try {
+    const raw = await provider.structureRecipe(app.lastExtracted, app.state.meta.domain, {
+      onStatus: (t) => spinner(t),
+    });
+    const recipe = normalizeRecipe(raw);
+    if (!recipe) throw new Error("The model's structure was unusable.");
+    spinner(null);
+    app.mutate((s) => {
+      s.recipe = recipe;
+    });
+    status("AI restructure applied — Undo reverts to the mechanical grouping.");
+    setTimeout(() => status(""), 4000);
+  } catch (e) {
+    spinner(null);
+    status(`AI restructure failed: ${e.message}`, e.kind !== "rate-limit");
+  } finally {
+    $("btn-ai").disabled = false;
+  }
 }
 
 async function structureRawText(text, provider) {
@@ -331,25 +339,33 @@ $("btn-paste-go").addEventListener("click", async () => {
   const text = $("paste-text").value.trim();
   if (!text) return;
   $("no-recipe").hidden = true;
-  const settings = await loadSettings();
-  const provider = getProvider(settings);
   app.state.meta = app.state.meta.url ? app.state.meta : { url: "", domain: "pasted text" };
+  const extracted = extractedFromPaste(text);
+  app.lastExtracted = extracted;
+  const recipe = buildRecipeFromExtraction(extracted, app.state.meta);
+  if (recipe) {
+    finishRender(recipe);
+    return;
+  }
+  // Deterministic parse found no ingredient lines — the LLM is the only
+  // remaining reader for this text.
+  const provider = getProvider(await loadSettings());
   if (provider) {
     await structureRawText(text, provider);
     if (!app.state.recipe) $("no-recipe").hidden = false;
   } else {
-    const recipe = buildRecipeFromExtraction(extractedFromPaste(text), app.state.meta);
-    if (recipe) {
-      banner(
-        `No API key — structured by matching ingredients to instruction steps. Add a free Gemini key in <a href="#" id="banner-options">Options</a> for smarter structuring.`
-      );
-      bindBannerOptions();
-      finishRender(recipe);
-    } else {
-      status("Couldn't find ingredient lines in that text.", true);
-      $("no-recipe").hidden = false;
-    }
+    status("Couldn't find ingredient lines in that text.", true);
+    $("no-recipe").hidden = false;
   }
+});
+
+$("btn-ai").addEventListener("click", aiRestructure);
+$("btn-ai-page").addEventListener("click", async () => {
+  const provider = getProvider(await loadSettings());
+  if (!provider || !app.lastPageText) return;
+  $("no-recipe").hidden = true;
+  await structureRawText(app.lastPageText, provider);
+  if (!app.state.recipe) $("no-recipe").hidden = false;
 });
 
 // --- boot ------------------------------------------------------------------

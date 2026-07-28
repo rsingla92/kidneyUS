@@ -20,17 +20,24 @@ structuring request.
 4. Pin the icon. On a recipe page, click it — the chart opens in the side
    panel (or a popup window on browsers without `chrome.sidePanel`).
 
-## Getting a free Gemini key (optional but recommended)
+## How structuring works (and when the LLM runs)
 
-Without a key the extension still builds a real chart deterministically: it
-walks the instructions in order, matches each step's text against the
-ingredient names, and folds the matches into an operation tree —
-"Meanwhile…" / "In a separate bowl…" / HowToSection markers start parallel
-branches, and a later step that re-mentions a branch's ingredients ("add the
-chicken to the sauce") merges it back in. Only when instructions name no
-ingredients at all does it degrade to *combine* → *cook*. With a key, Gemini
-handles the prose the mechanical matcher can't (implicit references,
-"the dry ingredients", unusual phrasing).
+Charts are built **deterministically by default — no LLM, no tokens, no
+network**: the extension walks the instructions in order, matches each
+step's text against the ingredient names, and folds the matches into an
+operation tree. "Meanwhile…" / "In a separate bowl…" / HowToSection markers
+start parallel branches, and a later step that re-mentions a branch's
+ingredients ("add the chicken to the sauce") merges it back in. Only when
+instructions name no ingredients at all does it degrade to *combine* →
+*cook*.
+
+The LLM is opt-in: if the mechanical grouping looks wrong, hit
+**✨ AI restructure** and Gemini re-groups the same extraction (Undo reverts
+to the mechanical version). The one other place AI appears is pages with no
+recipe markup at all, where an "Ask AI to read this page" button is offered
+instead of running automatically.
+
+## Getting a free Gemini key (optional)
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and
    sign in with a Google account. The free tier needs **no credit card**.
@@ -92,7 +99,10 @@ cd recipe-matrix
 npm test        # node --test: layout/rowspan invariants + PDF writer
 ```
 
-No build step, no dependencies. Layout logic lives in `panel/matrix.js`
+No build step, no runtime dependencies. The chart typeface is **Source
+Serif 4** (Adobe, SIL Open Font License 1.1 — see `fonts/LICENSE.md`),
+bundled as woff2 and inlined as data URIs during export so rasterized PNGs
+match the on-screen chart. Layout logic lives in `panel/matrix.js`
 (`computeLayout` — height/leaf-count annotation → rowspan/colspan grid),
 deterministic no-LLM structuring in `panel/heuristic.js` (instruction-order
 fold with branch detection), rendering in `panel/render.js`, export in
