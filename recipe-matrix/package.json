@@ -1,0 +1,6 @@
+{
+  "name": "recipe-matrix",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test test/matrix.test.js test/pdf.test.js" }
+}

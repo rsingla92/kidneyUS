@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipe Matrix</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+  <header id="topbar">
+    <div class="bar-row">
+      <strong class="brand">Recipe Matrix</strong>
+      <select id="theme-select" title="Theme">
+        <option value="mise">Auto by course (Mise)</option>
+        <option value="test-kitchen">Test Kitchen</option>
+        <option value="blueprint">Blueprint</option>
+        <option value="newsprint">Newsprint</option>
+        <option value="chalkboard">Chalkboard</option>
+      </select>
+      <button id="btn-undo" title="Undo (Ctrl+Z)" disabled>↩ Undo</button>
+      <button id="btn-rerun" title="Re-extract from the current tab">⟳ Re-extract</button>
+      <a href="#" id="link-options" title="API key & model">⚙</a>
+    </div>
+    <div class="bar-row" id="edit-bar" hidden>
+      <button id="btn-add-header">+ Prep header</button>
+      <button id="btn-add-notes">+ Notes</button>
+      <span class="sep"></span>
+      <span id="cell-tools" hidden>
+        <button id="btn-merge" title="Remove this step; its contents join the parent step">Merge ⤴</button>
+        <button id="btn-group" title="Group this cell with the one below it under a new step">Group ⌒</button>
+        <button id="btn-wrap" title="Add a new step around this cell">Wrap +</button>
+        <button id="btn-remove-step" title="Delete this step (contents move up)">✕ Step</button>
+      </span>
+      <span class="sep"></span>
+      <label><input type="checkbox" id="png-transparent" /> transparent</label>
+      <select id="pdf-size"><option value="letter">Letter</option><option value="a4">A4</option></select>
+      <button id="btn-png">PNG ⤓</button>
+      <button id="btn-pdf">PDF ⤓</button>
+      <button id="btn-copy">Copy ⧉</button>
+    </div>
+  </header>
+
+  <div id="status" hidden></div>
+  <div id="banner" hidden></div>
+
+  <main id="main">
+    <div id="spinner" hidden><div class="spin"></div><span id="spinner-text">Reading page…</span></div>
+
+    <div id="no-recipe" hidden>
+      <p><strong>No recipe detected on this page.</strong></p>
+      <p>Paste the recipe text below (ingredients and instructions) and I'll chart it:</p>
+      <textarea id="paste-text" rows="12" placeholder="1 cup sugar&#10;2 eggs&#10;…&#10;&#10;Cream the butter and sugar. Add eggs…"></textarea>
+      <button id="btn-paste-go">Build chart</button>
+    </div>
+
+    <div id="chart-scroll">
+      <div id="chart" class="chart" hidden></div>
+    </div>
+  </main>
+
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

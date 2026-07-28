@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Recipe Matrix — Options</title>
+  <style>
+    body {
+      font: 14px/1.5 system-ui, sans-serif;
+      max-width: 560px;
+      margin: 32px auto;
+      padding: 0 16px;
+      color: #222;
+    }
+    h1 { font-size: 18px; }
+    label { display: block; font-weight: 600; margin: 16px 0 4px; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font: 13px ui-monospace, monospace;
+      box-sizing: border-box;
+    }
+    .hint { font-size: 12px; color: #666; margin-top: 3px; }
+    .warn {
+      background: #fff7d6;
+      border: 1px solid #e8dfae;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      margin: 16px 0;
+    }
+    button {
+      font: 13px system-ui, sans-serif;
+      padding: 6px 14px;
+      border: 1px solid #999;
+      border-radius: 4px;
+      background: #f4f4f4;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-top: 14px;
+    }
+    button.primary { background: #1b5e20; border-color: #1b5e20; color: #fff; }
+    #result {
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      white-space: pre-wrap;
+      display: none;
+    }
+    #result.ok { display: block; background: #e5f3e6; border: 1px solid #b5d6b7; }
+    #result.err { display: block; background: #fde3e3; border: 1px solid #eab7b7; }
+  </style>
+</head>
+<body>
+  <h1>Recipe Matrix — Options</h1>
+
+  <p>
+    Structuring uses Google's Gemini free tier. Get a free API key (no credit card) at
+    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">aistudio.google.com</a>
+    and paste it here. Without a key the extension still works — it just groups
+    every recipe naively (combine → cook) and leaves the rest to you.
+  </p>
+
+  <div class="warn">
+    ⚠ Free-tier Gemini prompts <strong>may be used by Google to improve their
+    models</strong>. Recipe text is sent to Google when structuring. Don't use a
+    free-tier key for anything you consider private.
+  </div>
+
+  <label for="apiKey">Gemini API key</label>
+  <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off" />
+  <div class="hint">Stored only in this browser profile (<code>chrome.storage.local</code>), never synced.</div>
+
+  <label for="model">Model id</label>
+  <input type="text" id="model" placeholder="gemini-2.5-flash" />
+  <div class="hint">
+    Free-tier model ids change over time. If structuring starts failing with
+    "model not found", check the current free Flash model at
+    <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noreferrer">ai.google.dev</a>
+    and update this field.
+  </div>
+
+  <button class="primary" id="save">Save</button>
+  <button id="test">Test key</button>
+  <div id="result"></div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

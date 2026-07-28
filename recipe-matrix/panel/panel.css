@@ -1,0 +1,217 @@
+/* ---- app chrome (not part of the exported chart) ---- */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 13px/1.45 system-ui, sans-serif;
+  background: #ececec;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+}
+#topbar {
+  background: #fff;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 6px 10px;
+  flex: none;
+}
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 2px 0;
+}
+.brand { margin-right: 4px; font-size: 13px; }
+.sep { flex: 1; }
+button, select {
+  font: 12px system-ui, sans-serif;
+  padding: 3px 8px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #fafafa;
+  cursor: pointer;
+}
+button:hover { background: #f0f0f0; }
+button:disabled { opacity: 0.45; cursor: default; }
+#link-options { text-decoration: none; font-size: 15px; color: #444; padding: 0 4px; }
+label { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
+
+#status {
+  padding: 5px 10px;
+  background: #fff7d6;
+  border-bottom: 1px solid #e8dfae;
+  font-size: 12px;
+}
+#status.error { background: #fde3e3; border-color: #eab7b7; }
+#banner {
+  padding: 5px 10px;
+  background: #e8f0fe;
+  border-bottom: 1px solid #c4d4f5;
+  font-size: 12px;
+}
+#banner a { color: inherit; }
+
+#main { flex: 1; overflow: auto; padding: 12px; }
+#chart-scroll { overflow-x: auto; }
+
+#spinner { display: flex; align-items: center; gap: 10px; padding: 30px 10px; color: #555; }
+.spin {
+  width: 18px; height: 18px;
+  border: 3px solid #ccc; border-top-color: #1b5e20;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#no-recipe { max-width: 560px; }
+#no-recipe textarea {
+  width: 100%;
+  font: 12px/1.4 ui-monospace, monospace;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+/* ---- the chart itself (exported) ------------------------------------- */
+.chart {
+  /* theme variables; overridden per theme below */
+  --ground: #fdfce8;
+  --ink: #24291f;
+  --accent: #1b5e20;
+  --rule: #1b5e20;
+  --muted: #6b705f;
+  --serif: Georgia, "Times New Roman", serif;
+
+  display: inline-block;
+  background: var(--ground);
+  color: var(--ink);
+  padding: 18px 22px 12px;
+  min-width: 480px;
+}
+.chart-header { margin-bottom: 10px; }
+.chart-title {
+  font: 700 21px/1.2 var(--serif);
+  color: var(--accent);
+  outline: none;
+}
+.chart-meta {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.chart-meta .m-domain { text-transform: lowercase; letter-spacing: 0.02em; }
+
+table.matrix {
+  border-collapse: collapse;
+  border: 1.5px solid var(--rule);
+}
+.matrix td {
+  border: 1px solid var(--rule);
+  padding: 6px 10px;
+  vertical-align: middle;
+  outline: none;
+}
+.matrix td.prep-header {
+  font: italic 13px/1.35 var(--serif);
+  padding: 5px 10px;
+  position: relative;
+}
+.matrix td.ingredient {
+  font: 13.5px/1.35 var(--serif);
+  white-space: nowrap;
+  position: relative;
+}
+.matrix td.ingredient .ing-qty { font-weight: 700; margin-right: 6px; }
+.matrix td.ingredient .ing-name {}
+.matrix td.ingredient .ing-note { color: var(--muted); font-style: italic; font-size: 12px; margin-left: 5px; }
+.matrix td.ingredient .ing-section {
+  display: block;
+  font: 600 10px/1.6 system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.matrix td.op {
+  font: 500 12.5px/1.3 system-ui, sans-serif;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: var(--accent);
+  min-width: 52px;
+  max-width: 130px;
+}
+.chart-footnotes {
+  margin-top: 8px;
+  font: italic 11.5px/1.5 var(--serif);
+  color: var(--muted);
+  max-width: 620px;
+}
+.chart-footnotes li { margin-left: 16px; }
+.chart-notes {
+  margin-top: 8px;
+  font: 12.5px/1.5 var(--serif);
+  border-top: 1px dashed var(--rule);
+  padding-top: 6px;
+  max-width: 620px;
+  min-height: 18px;
+  outline: none;
+}
+.chart-notes:empty::before { content: "notes…"; color: var(--muted); font-style: italic; }
+.chart-footer {
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ---- themes ---- */
+.chart[data-theme="test-kitchen"] {
+  --ground: #fdfce8; --ink: #24291f; --accent: #1b5e20; --rule: #1b5e20; --muted: #6b705f;
+}
+.chart[data-theme="mise"] {
+  --ground: #fdfbf2; --ink: #2a2721; --rule: var(--accent); --muted: #7a746a;
+  /* --accent injected per course by the renderer */
+}
+.chart[data-theme="blueprint"] {
+  --ground: #123b63; --ink: #eaf2fb; --accent: #ffffff; --rule: #ffffff; --muted: #9fb8d4;
+}
+.chart[data-theme="newsprint"] {
+  --ground: #f7f5ef; --ink: #111111; --accent: #111111; --rule: #111111; --muted: #555550;
+}
+.chart[data-theme="chalkboard"] {
+  --ground: #2a2a28; --ink: #f2f0e9; --accent: #f2f0e9; --rule: #d8d5c9; --muted: #a9a698;
+}
+
+/* ---- editing affordances (stripped before export) ---- */
+.chart:not(.exporting) [contenteditable]:hover { box-shadow: inset 0 0 0 1px rgba(120,120,255,0.35); }
+.chart:not(.exporting) [contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(80,80,255,0.5); }
+.chart:not(.exporting) td.op.selected { box-shadow: inset 0 0 0 2.5px #4a6cf7 !important; }
+.row-grip {
+  position: absolute;
+  left: 1px; top: 50%;
+  transform: translateY(-50%);
+  cursor: grab;
+  color: var(--muted);
+  font-size: 11px;
+  opacity: 0;
+  user-select: none;
+}
+.row-del, .hdr-del {
+  position: absolute;
+  right: 1px; top: 1px;
+  border: none; background: none;
+  color: #b33;
+  font-size: 11px;
+  padding: 1px 3px;
+  cursor: pointer;
+  opacity: 0;
+}
+.matrix td.ingredient:hover .row-grip,
+.matrix td.ingredient:hover .row-del,
+.matrix td.prep-header:hover .hdr-del { opacity: 0.85; }
+.matrix tr.drag-over td.ingredient { box-shadow: inset 0 3px 0 #4a6cf7; }
+.chart.exporting .row-grip, .chart.exporting .row-del, .chart.exporting .hdr-del { display: none; }
