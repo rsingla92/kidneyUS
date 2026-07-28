@@ -104,7 +104,9 @@ const VERBS = [
   "chill", "freeze", "rest", "cool", "proof", "rise", "drain", "strain",
   "purée", "puree", "blend", "mash", "season", "garnish", "top", "serve",
   "add", "pour", "spread", "layer", "roll", "shape", "cut", "slice", "heat",
-  "cook",
+  "cook", "sprinkle", "arrange", "brush", "drizzle", "scatter", "rub",
+  "coat", "press", "stuff", "fill", "transfer", "place", "weigh", "measure",
+  "divide", "warm", "microwave",
 ];
 const VERB_RE = new RegExp(`\\b(${VERBS.join("|")})`, "gi");
 // Cooking-method verbs beat generic handling verbs ("add", "pour", "mix")
@@ -126,7 +128,7 @@ const NOUN_CONTEXT = new Set([
   "light", "dark", "ice", "golden",
 ]);
 
-export function terseLabel(step) {
+export function terseLabel(step, { requireVerb = false } = {}) {
   const text = String(step).replace(/^##\s*/, "").trim();
   const lower = text.toLowerCase();
   const verbs = [...lower.matchAll(VERB_RE)]
@@ -141,6 +143,10 @@ export function terseLabel(step) {
   const verb = verbs.filter((v) => PRIMARY.has(v)).pop() || verbs[0] || "";
   const temp = lower.match(/(\d{2,3})\s*°\s*([cf])\b/i) || lower.match(/(\d{2,3})\s*degrees\s*([cf])?/i);
   const time = lower.match(/(\d+)(?:\s*(?:to|[-–])\s*(\d+))?\s*(minutes?|mins?|hours?|hrs?|seconds?|secs?)\b/);
+  // Real-world steps are often notes, not actions ("Best when fresh…",
+  // "Leftovers keep 3 days") — callers that would mint a column from this
+  // can demand a real verb or an actual time/temperature.
+  if (requireVerb && !verb && !temp && !time) return "";
 
   let label = verb || lower.split(/\s+/).slice(0, 2).join(" ");
   // "fold" reads better as "fold in", "stir in", "mix in" when adding things.
@@ -150,7 +156,63 @@ export function terseLabel(step) {
     const unit = /hour|hr/.test(time[3]) ? "hr" : /sec/.test(time[3]) ? "sec" : "min";
     label += ` ${time[1]}${time[2] ? "-" + time[2] : ""} ${unit}`;
   }
-  return label.length > 26 ? label.slice(0, 26).trimEnd() : label;
+  label = label.replace(/[\s,;:–—-]+$/, "");
+  // Truncate on a word boundary, never mid-token ("roll 2 h").
+  if (label.length > 26) label = label.slice(0, 27).replace(/\s+\S*$/, "");
+  return label;
+}
+
+/** Does a label carry real information (time, temp, or a known verb)? */
+function labelInfo(label) {
+  if (/\d/.test(label)) return 2;
+  return VERBS.includes(label.split(" ")[0]) ? 1 : 0;
+}
+
+/**
+ * Enforce a sane column budget: real-world instruction lists can mint a
+ * dozen chained steps. Collapse the least informative single-child wrapper
+ * nodes until at most `maxOps` operation levels remain.
+ */
+export function compressTree(root, maxOps = 6) {
+  const depth = (n) => (n.children ? 1 + Math.max(...n.children.map(depth)) : 0);
+  for (let guard = 0; depth(root) > maxOps && guard < 30; guard++) {
+    // Wrappers (single non-leaf child) on the deepest path, least info first.
+    let best = null;
+    const visit = (node, parent) => {
+      if (!node.children) return;
+      if (
+        parent &&
+        node.children.length === 1 &&
+        node.children[0].children &&
+        (!best || labelInfo(node.label) < labelInfo(best.node.label))
+      ) {
+        best = { node, parent };
+      }
+      for (const c of node.children) visit(c, node);
+    };
+    visit(root, null);
+    if (best) {
+      // The wrapper disappears but its label may be the informative one
+      // ("simmer 20 min" wrapping a bare "add") — keep the better label.
+      const child = best.node.children[0];
+      if (labelInfo(best.node.label) > labelInfo(child.label)) child.label = best.node.label;
+      const idx = best.parent.children.indexOf(best.node);
+      best.parent.children.splice(idx, 1, child);
+      continue;
+    }
+    // No wrappers left — merge the deepest chain node into its parent.
+    let deepest = null;
+    const walkDeep = (node, parent, d) => {
+      if (!node.children) return;
+      if (parent && (!deepest || d > deepest.d)) deepest = { node, parent, d };
+      for (const c of node.children) walkDeep(c, node, d + 1);
+    };
+    walkDeep(root, null, 1);
+    if (!deepest) break;
+    const idx = deepest.parent.children.indexOf(deepest.node);
+    deepest.parent.children.splice(idx, 1, ...deepest.node.children);
+  }
+  return root;
 }
 
 /** Prep-header steps: oven preheats, pan prep — they precede the grid. */
@@ -187,8 +249,15 @@ export function buildTree(ingredients, instructions) {
       steps.push({ text: "", sectionName: section[1] });
       continue;
     }
-    if (isPrepHeader(s)) prepHeaders.push(s.replace(/\.$/, ""));
-    else steps.push({ text: s });
+    // Real sites pack several sentences into one step ("Chill 2 hours.
+    // Meanwhile, preheat the oven…"). Split so prep sentences route to
+    // headers and each action gets its own shot at a label.
+    for (const sentence of s.split(/(?<=[.!?])\s+(?=[A-Z"“])/)) {
+      const t = sentence.trim();
+      if (!t) continue;
+      if (isPrepHeader(t)) prepHeaders.push(t.replace(/\.$/, ""));
+      else steps.push({ text: t });
+    }
   }
 
   const unused = [...ingredients];
@@ -227,7 +296,6 @@ export function buildTree(ingredients, instructions) {
     }
 
     const matched = take(stepTokens);
-    const label = terseLabel(text);
     const leaves = matched.map((ing) => ({ id: freshId(), ingredientId: ing.id }));
 
     // Parked branches this step calls back into ("add the chicken to the
@@ -244,16 +312,49 @@ export function buildTree(ingredients, instructions) {
     ];
     if (children.length === 0) continue;
 
+    // Steps without a cooking verb or time/temp are notes ("Leftovers keep
+    // 3 days") — skip them, or fall back to "add" if they consumed
+    // ingredients ("Weigh your flour…" before verbs improved).
+    const label = terseLabel(text, { requireVerb: true }) ||
+      (leaves.length || merging.length ? "add" : "");
+
     if (children.length === 1 && current.node && !leaves.length) {
       // Ingredient-less step ("let rest 10 min") wraps the running result —
       // but don't stack wrappers; extend the previous label instead.
-      if (SKIP_RE.test(text)) continue;
+      if (!label || SKIP_RE.test(text)) continue;
       const prev = current.node;
       if (prev.children?.length === 1 && !prev.children[0].ingredientId) {
-        prev.label = `${prev.label}, ${label}`.slice(0, 30);
+        // Keep at most two clauses, informative first, and drop a clause
+        // that repeats an earlier one's numbers ("simmer 25 min" twice).
+        const clauses = `${prev.label}, ${label}`.split(/,\s*/).filter(Boolean);
+        clauses.sort((a, b) => (/\d/.test(b) ? 1 : 0) - (/\d/.test(a) ? 1 : 0));
+        const kept = [];
+        for (const c of clauses) {
+          const nums = c.match(/\d+/g) || [];
+          const verb = c.split(" ")[0];
+          if (
+            kept.some(
+              (k) => c === k || k.split(" ")[0] === verb || nums.some((n) => k.includes(n))
+            )
+          ) {
+            continue;
+          }
+          kept.push(c);
+          if (kept.length === 2) break;
+        }
+        prev.label = kept.join(", ");
       } else {
         current.node = { id: freshId(), label, children: [prev] };
       }
+    } else if (
+      leaves.length &&
+      current.node &&
+      !merging.length &&
+      current.node.label === label
+    ) {
+      // Same action as the running step ("add… / add…") — absorb the new
+      // ingredients into the existing cell instead of minting a column.
+      current.node.children.push(...leaves);
     } else {
       current.node = { id: freshId(), label, children };
     }
@@ -292,6 +393,7 @@ export function buildTree(ingredients, instructions) {
     }
   }
 
+  if (current.node) compressTree(current.node);
   return { tree: current.node, prepHeaders, usedAll: unused.length === 0 };
 }
 

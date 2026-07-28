@@ -8,10 +8,15 @@
 (() => {
   const clean = (s) =>
     String(s ?? "")
+      // Some sites ship raw HTML inside JSON-LD strings (shop links in
+      // ingredients, <br> in steps) — strip markup before anything else.
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/&#39;|&apos;/gi, "'")
+      .replace(/&quot;/gi, '"')
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n))
       .replace(/\s+/g, " ")
-      .replace(/&amp;/g, "&")
-      .replace(/&#39;|&apos;/g, "'")
-      .replace(/&quot;/g, '"')
       .trim();
 
   // --- 1. JSON-LD ---------------------------------------------------------
