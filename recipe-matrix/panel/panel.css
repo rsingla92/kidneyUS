@@ -76,114 +76,155 @@ label { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
 /* ---- the chart itself (exported) ------------------------------------- */
 .chart {
   /* theme variables; overridden per theme below */
-  --ground: #fdfce8;
+  --ground: #fdfbf2;
   --ink: #24291f;
   --accent: #1b5e20;
-  --rule: #1b5e20;
   --muted: #6b705f;
-  --serif: Georgia, "Times New Roman", serif;
+  /* rules are the accent knocked back toward the ground: hairline, quiet */
+  --rule: color-mix(in srgb, var(--accent) 42%, var(--ground));
+  --rule-strong: color-mix(in srgb, var(--accent) 75%, var(--ground));
+  --op-tint: color-mix(in srgb, var(--accent) 4%, transparent);
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
 
   display: inline-block;
   background: var(--ground);
   color: var(--ink);
-  padding: 18px 22px 12px;
+  padding: 20px 24px 14px;
   min-width: 480px;
 }
-.chart-header { margin-bottom: 10px; }
+.chart-header { margin-bottom: 14px; }
 .chart-title {
-  font: 700 21px/1.2 var(--serif);
-  color: var(--accent);
+  font: 700 22px/1.15 var(--serif);
+  color: var(--ink);
+  letter-spacing: -0.01em;
   outline: none;
 }
+.chart-title::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin-top: 6px;
+  background: var(--accent);
+}
 .chart-meta {
-  font-size: 11.5px;
+  font: 500 10px/1.4 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
   color: var(--muted);
-  margin-top: 3px;
+  margin-top: 7px;
   display: flex;
-  gap: 14px;
   flex-wrap: wrap;
 }
-.chart-meta .m-domain { text-transform: lowercase; letter-spacing: 0.02em; }
+.chart-meta span:not(:last-child)::after {
+  content: "·";
+  margin: 0 8px;
+  color: var(--rule-strong);
+}
 
 table.matrix {
   border-collapse: collapse;
-  border: 1.5px solid var(--rule);
+  border: 1px solid var(--rule-strong);
 }
 .matrix td {
   border: 1px solid var(--rule);
-  padding: 6px 10px;
+  padding: 6px 11px;
   vertical-align: middle;
   outline: none;
 }
 .matrix td.prep-header {
-  font: italic 13px/1.35 var(--serif);
-  padding: 5px 10px;
+  font: italic 12.5px/1.4 var(--serif);
+  color: color-mix(in srgb, var(--ink) 82%, var(--ground));
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 5px 11px;
   position: relative;
 }
 .matrix td.ingredient {
-  font: 13.5px/1.35 var(--serif);
+  font: 13px/1.4 var(--serif);
   white-space: nowrap;
   position: relative;
 }
-.matrix td.ingredient .ing-qty { font-weight: 700; margin-right: 6px; }
-.matrix td.ingredient .ing-name {}
-.matrix td.ingredient .ing-note { color: var(--muted); font-style: italic; font-size: 12px; margin-left: 5px; }
+.matrix td.ingredient .ing-qty {
+  font: 600 12px/1.4 var(--sans);
+  margin-right: 7px;
+  font-variant-numeric: tabular-nums diagonal-fractions;
+}
+.matrix td.ingredient .ing-note { color: var(--muted); font-style: italic; font-size: 11.5px; margin-left: 5px; }
 .matrix td.ingredient .ing-section {
   display: block;
-  font: 600 10px/1.6 system-ui, sans-serif;
-  letter-spacing: 0.12em;
+  font: 700 9px/1.8 var(--sans);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
 }
 .matrix td.op {
-  font: 500 12.5px/1.3 system-ui, sans-serif;
-  font-variant: small-caps;
-  letter-spacing: 0.03em;
+  font: 600 11px/1.35 var(--sans);
+  letter-spacing: 0.05em;
   text-align: center;
   color: var(--accent);
-  min-width: 52px;
-  max-width: 130px;
+  background: var(--op-tint);
+  min-width: 54px;
+  max-width: 120px;
+  padding: 5px 9px;
+}
+/* The final step is the destination — weightier, but not a poster. */
+.matrix td.op.root {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  min-width: 64px;
 }
 .chart-footnotes {
-  margin-top: 8px;
-  font: italic 11.5px/1.5 var(--serif);
+  margin: 9px 0 0;
+  padding: 0;
+  font: italic 11.5px/1.55 var(--serif);
   color: var(--muted);
-  max-width: 620px;
+  max-width: 640px;
+  list-style-position: inside;
 }
-.chart-footnotes li { margin-left: 16px; }
 .chart-notes {
-  margin-top: 8px;
-  font: 12.5px/1.5 var(--serif);
-  border-top: 1px dashed var(--rule);
-  padding-top: 6px;
-  max-width: 620px;
+  margin-top: 9px;
+  font: 12.5px/1.55 var(--serif);
+  border-top: 1px solid var(--rule);
+  padding-top: 7px;
+  max-width: 640px;
   min-height: 18px;
   outline: none;
 }
 .chart-notes:empty::before { content: "notes…"; color: var(--muted); font-style: italic; }
 .chart-footer {
-  margin-top: 10px;
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.02em;
+  margin-top: 12px;
+  font: 400 9px/1.4 var(--sans);
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--muted) 75%, var(--ground));
 }
 
 /* ---- themes ---- */
 .chart[data-theme="test-kitchen"] {
-  --ground: #fdfce8; --ink: #24291f; --accent: #1b5e20; --rule: #1b5e20; --muted: #6b705f;
+  --ground: #fdfce8; --ink: #24291f; --accent: #1b5e20; --muted: #6b705f;
 }
 .chart[data-theme="mise"] {
-  --ground: #fdfbf2; --ink: #2a2721; --rule: var(--accent); --muted: #7a746a;
+  --ground: #fdfbf2; --ink: #2a2721; --muted: #7a746a;
   /* --accent injected per course by the renderer */
 }
 .chart[data-theme="blueprint"] {
-  --ground: #123b63; --ink: #eaf2fb; --accent: #ffffff; --rule: #ffffff; --muted: #9fb8d4;
+  --ground: #123b63; --ink: #eaf2fb; --accent: #ffffff; --muted: #9fb8d4;
+  --rule: color-mix(in srgb, #ffffff 38%, var(--ground));
+  --rule-strong: color-mix(in srgb, #ffffff 70%, var(--ground));
+  --op-tint: color-mix(in srgb, #ffffff 7%, transparent);
 }
 .chart[data-theme="newsprint"] {
-  --ground: #f7f5ef; --ink: #111111; --accent: #111111; --rule: #111111; --muted: #555550;
+  --ground: #f7f5ef; --ink: #111111; --accent: #111111; --muted: #555550;
+  --rule: color-mix(in srgb, #111111 35%, var(--ground));
+  --rule-strong: #111111;
+  --op-tint: transparent;
 }
 .chart[data-theme="chalkboard"] {
-  --ground: #2a2a28; --ink: #f2f0e9; --accent: #f2f0e9; --rule: #d8d5c9; --muted: #a9a698;
+  --ground: #2a2a28; --ink: #f2f0e9; --accent: #f2f0e9; --muted: #a9a698;
+  --rule: color-mix(in srgb, #d8d5c9 40%, var(--ground));
+  --rule-strong: color-mix(in srgb, #d8d5c9 75%, var(--ground));
+  --op-tint: color-mix(in srgb, #f2f0e9 6%, transparent);
 }
 
 /* ---- editing affordances (stripped before export) ---- */

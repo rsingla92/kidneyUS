@@ -22,9 +22,15 @@ structuring request.
 
 ## Getting a free Gemini key (optional but recommended)
 
-Without a key the extension still extracts recipes and renders a chart with a
-naive grouping (all ingredients → *combine* → *cook*) that you can reshape by
-hand. With a key, Gemini infers the real operation tree.
+Without a key the extension still builds a real chart deterministically: it
+walks the instructions in order, matches each step's text against the
+ingredient names, and folds the matches into an operation tree —
+"Meanwhile…" / "In a separate bowl…" / HowToSection markers start parallel
+branches, and a later step that re-mentions a branch's ingredients ("add the
+chicken to the sauce") merges it back in. Only when instructions name no
+ingredients at all does it degrade to *combine* → *cook*. With a key, Gemini
+handles the prose the mechanical matcher can't (implicit references,
+"the dry ingredients", unusual phrasing).
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and
    sign in with a Google account. The free tier needs **no credit card**.
@@ -88,6 +94,8 @@ npm test        # node --test: layout/rowspan invariants + PDF writer
 
 No build step, no dependencies. Layout logic lives in `panel/matrix.js`
 (`computeLayout` — height/leaf-count annotation → rowspan/colspan grid),
-rendering in `panel/render.js`, export in `panel/export.js` (SVG
-`foreignObject` rasterization + a hand-rolled single-page PDF writer; MV3's
-CSP forbids remote scripts, so nothing external is loaded).
+deterministic no-LLM structuring in `panel/heuristic.js` (instruction-order
+fold with branch detection), rendering in `panel/render.js`, export in
+`panel/export.js` (SVG `foreignObject` rasterization + a hand-rolled
+single-page PDF writer; MV3's CSP forbids remote scripts, so nothing
+external is loaded).

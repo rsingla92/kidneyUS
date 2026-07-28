@@ -78,16 +78,18 @@ export function renderChart(container, state) {
               ing.section && ing.section !== (prev?.section || "")
                 ? `<span class="ing-section" contenteditable="plaintext-only" data-edit="section" data-id="${esc(ing.id)}">${esc(ing.section)}</span>`
                 : "";
+            const qty = qtyText(ing);
             return `<td class="ingredient"${span} data-row="${rowIdx}">
               <span class="row-grip" draggable="true" title="Drag to reorder">⠿</span>
               ${sectionLabel}
-              <span class="ing-qty" contenteditable="plaintext-only" data-edit="qty" data-id="${esc(ing.id)}">${esc(qtyText(ing))}</span><span class="ing-name" contenteditable="plaintext-only" data-edit="name" data-id="${esc(ing.id)}">${esc(ing.name)}</span>${
+              ${qty ? `<span class="ing-qty" contenteditable="plaintext-only" data-edit="qty" data-id="${esc(ing.id)}">${esc(qty)}</span>` : ""}<span class="ing-name" contenteditable="plaintext-only" data-edit="name" data-id="${esc(ing.id)}">${esc(ing.name)}</span>${
                 ing.note ? `<span class="ing-note" contenteditable="plaintext-only" data-edit="note" data-id="${esc(ing.id)}">${esc(ing.note)}</span>` : ""
               }
               <button class="row-del" data-act="del-ing" data-id="${esc(ing.id)}" title="Delete ingredient">✕</button>
             </td>`;
           }
-          return `<td class="op"${span} data-node="${esc(cell.node.id)}"><span contenteditable="plaintext-only" data-edit="op" data-node="${esc(cell.node.id)}">${esc(cell.label)}</span></td>`;
+          const isRoot = cell.node.id === recipe.tree.id;
+          return `<td class="op${isRoot ? " root" : ""}"${span} data-node="${esc(cell.node.id)}"><span contenteditable="plaintext-only" data-edit="op" data-node="${esc(cell.node.id)}">${esc(cell.label)}</span></td>`;
         })
         .join("");
       return `<tr>${tds}</tr>`;

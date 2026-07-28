@@ -1,6 +1,7 @@
 // panel.js — orchestration: extract → structure → render → edit → export.
 
-import { normalizeRecipe, naiveTree, mergeIntoParent, groupWithNextSibling, wrapInStep, freshId } from "./matrix.js";
+import { normalizeRecipe, mergeIntoParent, groupWithNextSibling, wrapInStep, freshId } from "./matrix.js";
+import { buildRecipeFromExtraction, QTY } from "./heuristic.js";
 import { renderChart } from "./render.js";
 import { initEditor } from "./editor.js";
 import { exportPng, exportPdf, copyPngToClipboard } from "./export.js";
@@ -73,95 +74,6 @@ function banner(html) {
 function spinner(text) {
   $("spinner").hidden = !text;
   if (text) $("spinner-text").textContent = text;
-}
-
-// --- naive (no-LLM) structuring -------------------------------------------
-
-const UNIT = /(?:cups?|tsp|tbsp|teaspoons?|tablespoons?|fl\s?oz|oz|ounces?|lbs?|pounds?|kg|g|grams?|m[lL]|liters?|litres?|l\b|pinch(?:es)?|dash(?:es)?|cloves?|cans?|sticks?|slices?|sprigs?|bunch(?:es)?|packages?|pkgs?|shots?|large|medium|small)\.?/;
-const QTY = new RegExp(
-  `^((?:\\d+\\s+\\d/\\d|\\d/\\d|\\d+(?:[.,]\\d+)?|[¼½¾⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞])(?:\\s*[-–]\\s*\\d+(?:[.,]\\d+)?)?\\s*(?:${UNIT.source})?)\\s+(.+)$`,
-  "i"
-);
-
-function parseIngredientString(s, section) {
-  let imperial = "";
-  let metric = "";
-  let rest = s.trim();
-  const m = rest.match(QTY);
-  if (m) {
-    imperial = m[1].trim();
-    rest = m[2].trim();
-  }
-  const paren = rest.match(/^\(([^)]{1,20})\)\s*(.+)$/);
-  if (paren && /\d/.test(paren[1])) {
-    metric = paren[1].trim();
-    rest = paren[2].trim();
-  }
-  let note = "";
-  const comma = rest.match(/^([^,]+),\s*(.+)$/);
-  if (comma && comma[2].length < 40) {
-    rest = comma[1].trim();
-    note = comma[2].trim();
-  }
-  return { id: freshId("i"), imperial, metric, name: rest, note, section: section || "" };
-}
-
-function guessCookLabel(instructions) {
-  const VERB = /\b(bake|roast|simmer|boil|fry|sauté|saute|grill|broil|steam|braise|chill|freeze)/;
-  // The final cooking step is usually the last instruction that names a
-  // cooking verb; pull temp/time from that same line.
-  const lines = (instructions || []).map((l) => l.toLowerCase());
-  const line = [...lines].reverse().find((l) => VERB.test(l));
-  if (!line) return "cook";
-  let label = line.match(VERB)[1];
-  const temp = line.match(/(\d{2,3})\s*°?\s*([cf])\b/i);
-  const time = line.match(/(\d+)(?:\s*[-–]\s*(\d+))?\s*(?:minutes|min|hours|hrs?)\b/);
-  if (temp) label += ` ${temp[1]}°${temp[2].toUpperCase()}`;
-  if (time) label += ` ${time[1]}${time[2] ? "-" + time[2] : ""} min`;
-  return label;
-}
-
-function naiveRecipe(extracted, meta) {
-  let section = "";
-  const ingredients = [];
-  for (const raw of extracted.ingredients) {
-    const s = raw.trim();
-    if (/^(for the|for)\b.*:$/i.test(s) || (/:$/.test(s) && s.length < 48 && !/\d/.test(s))) {
-      section = s.replace(/:$/, "");
-      continue;
-    }
-    if (s) ingredients.push(parseIngredientString(s, section));
-  }
-  if (!ingredients.length) return null;
-  const recipe = {
-    title: extracted.title || meta.domain || "Recipe",
-    servings: extracted.servings || "",
-    totalTime: extracted.totalTime || "",
-    course: guessCourse(extracted),
-    prepHeaders: [],
-    ingredients,
-    tree: null,
-    footnotes: [],
-    notes: "",
-  };
-  recipe.tree = naiveTree(ingredients);
-  recipe.tree.label = guessCookLabel(extracted.instructions);
-  return normalizeRecipe(recipe);
-}
-
-function guessCourse(extracted) {
-  const hay = `${extracted.category || ""} ${extracted.title || ""}`.toLowerCase();
-  for (const [key, course] of [
-    ["dessert", "dessert"], ["cake", "dessert"], ["cookie", "dessert"], ["brownie", "dessert"],
-    ["bread", "baking"], ["appetizer", "appetizer"], ["starter", "appetizer"], ["salad", "salad"],
-    ["soup", "soup"], ["stew", "soup"], ["breakfast", "breakfast"], ["brunch", "breakfast"],
-    ["drink", "drink"], ["cocktail", "drink"], ["sauce", "sauce"], ["dressing", "sauce"],
-    ["side", "side"], ["fish", "seafood"], ["shrimp", "seafood"], ["salmon", "seafood"],
-    ["main", "main"], ["dinner", "main"], ["entree", "main"], ["entrée", "main"],
-  ]) {
-    if (hay.includes(key)) return course;
-  }
-  return "other";
 }
 
 // --- pasted-text fallback --------------------------------------------------
@@ -263,12 +175,12 @@ async function structureExtracted(extracted, provider) {
         finishRender(recipe);
         return;
       }
-      status("The model's structure was unusable — using naive grouping instead.", true);
+      status("The model's structure was unusable — structured mechanically instead.", true);
     } catch (e) {
-      status(`${e.message} Using naive grouping instead.`, e.kind !== "rate-limit");
+      status(`${e.message} Structured mechanically instead.`, e.kind !== "rate-limit");
     }
   }
-  const recipe = naiveRecipe(extracted, app.state.meta);
+  const recipe = buildRecipeFromExtraction(extracted, app.state.meta);
   if (!recipe) {
     spinner(null);
     $("no-recipe").hidden = false;
@@ -276,7 +188,7 @@ async function structureExtracted(extracted, provider) {
   }
   if (!provider) {
     banner(
-      `No API key — grouped naively (combine → cook). Edit the cells by hand, or add a free Gemini key in <a href="#" id="banner-options">Options</a> for smart structuring.`
+      `No API key — structured by matching ingredients to instruction steps. Check the grouping (it's mechanical), or add a free Gemini key in <a href="#" id="banner-options">Options</a> for smarter structuring.`
     );
     bindBannerOptions();
   }
@@ -426,10 +338,10 @@ $("btn-paste-go").addEventListener("click", async () => {
     await structureRawText(text, provider);
     if (!app.state.recipe) $("no-recipe").hidden = false;
   } else {
-    const recipe = naiveRecipe(extractedFromPaste(text), app.state.meta);
+    const recipe = buildRecipeFromExtraction(extractedFromPaste(text), app.state.meta);
     if (recipe) {
       banner(
-        `No API key — grouped naively. Add a free Gemini key in <a href="#" id="banner-options">Options</a> for smart structuring.`
+        `No API key — structured by matching ingredients to instruction steps. Add a free Gemini key in <a href="#" id="banner-options">Options</a> for smarter structuring.`
       );
       bindBannerOptions();
       finishRender(recipe);
